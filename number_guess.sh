@@ -1,2 +1,27 @@
 #!/bin/bash
- PSQL="psql --username=freecodecamp --dbname=<nombre_de_la_base_de_datos> -t --no-align -c"
+ PSQL="psql --username=freecodecamp --dbname=number_guess -t --no-align -c"
+
+#Random number
+RANDOM_NUMBER=$(( RANDOM % 1000 + 1 ))
+
+#Create Username
+echo Enter your username:
+read USERNAME
+
+#SELECT info FROM users
+VAR=$($PSQL "SELECT username FROM users WHERE username='$USERNAME'")
+GAMES_PLAYED=$($PSQL "SELECT games_played FROM users WHERE username='$USERNAME'")
+BEST_GAME=$($PSQL "SELECT best_game FROM users WHERE username='$USERNAME'")
+
+#know if username was used before
+if [[  -z "$VAR"  ]]; then
+
+echo Welcome, "$USERNAME"! It looks like this is your first time here.
+#New Username
+INSERT_USERNAME=$($PSQL "INSERT INTO users (username) VALUES ('$USERNAME');")
+
+else
+
+echo Welcome back, "$USERNAME"! You have played "$GAMES_PLAYED" games, and your best game took "$BEST_GAME" guesses.
+
+fi
