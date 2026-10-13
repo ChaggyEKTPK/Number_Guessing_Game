@@ -49,6 +49,10 @@ while ! [[ $GUESS -eq $RANDOM_NUMBER ]]; do
 read GUESS
 done
 
-#you guessed the number 
+#you guessed the number
 TRY=$(( TRY + 1 ))
 echo You guessed it in "$TRY" tries. The secret number was "$RANDOM_NUMBER". Nice job!
+#Update games played
+UPDATE_GAMES_PLAYED=$($PSQL "UPDATE users SET games_played = games_played + 1 WHERE username='$USERNAME'")
+#Update best game
+UPDATE_BEST_GAME=$($PSQL "UPDATE users SET best_game = LEAST(best_game, '$TRY')WHERE username='$USERNAME'")
