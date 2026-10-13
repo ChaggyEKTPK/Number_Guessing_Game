@@ -3,7 +3,6 @@
 
 #Random number
 RANDOM_NUMBER=$(( RANDOM % 1000 + 1 ))
-echo $RANDOM_NUMBER
 TRY=0
 
 #Create Username
