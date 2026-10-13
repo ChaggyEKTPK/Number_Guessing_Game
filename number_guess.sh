@@ -3,6 +3,8 @@
 
 #Random number
 RANDOM_NUMBER=$(( RANDOM % 1000 + 1 ))
+echo $RANDOM_NUMBER
+TRY=0
 
 #Create Username
 echo Enter your username:
@@ -29,9 +31,24 @@ fi
 echo Guess the secret number between 1 and 1000:
 read GUESS
 
-# know if it is a number
-while ! [[ "$GUESS" =~ ^-?[0-9]+$ ]]; do
-    echo That is not an integer, guess again:
-    read GUESS
+
+# While loop to guess number
+while ! [[ $GUESS -eq $RANDOM_NUMBER ]]; do
+  if ! [[ $GUESS =~ ^-?[0-9]+$ ]]; then
+  echo That is not an integer, guess again:
+
+  elif [[ $GUESS -gt $RANDOM_NUMBER ]]; then
+  TRY=$(( TRY + 1 ))
+  echo "It's lower than that, guess again:"
+
+  elif [[ $GUESS -lt $RANDOM_NUMBER ]]; then
+  TRY=$(( TRY + 1 ))
+  echo "It's higher than that, guess again:"
+  fi
+
+read GUESS
 done
 
+#you guessed the number 
+TRY=$(( TRY + 1 ))
+echo You guessed it in "$TRY" tries. The secret number was "$RANDOM_NUMBER". Nice job!
